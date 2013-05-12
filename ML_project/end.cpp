@@ -8,20 +8,20 @@
 #include <algorithm>
 using namespace std;
 
-const int user_size = 5000;						//¶¨ÒåÓÃ»§Êı
-const int item_size = 1000;						//¶¨ÒåÏîÊı
-double sim[item_size][item_size] = {0};			//¶¨ÒåÏîÄ¿Ö®¼äµÄÏàËÆ¶È
-const int question_num = 145081;				//¶¨ÒåĞèÒªÍÆ¼öµÄÓÃ»§ÔÚÎÄ¼şÖĞµÄĞĞÊı
-char user[user_size][item_size] = {NULL};		//¶¨ÒåÓÃ»§ĞÅÏ¢£¬¼´ÓÃ»§¶ÔÓÚÃ¿²¿µçÓ°µÄÆÀ·Ö
-vector<double> ex,ex2;							//¶¨ÒåÔÚÃ¿Ò»ÁĞÖĞµÄÏîµÄÆÚÍû/¾ùÖµ
+const int user_size = 5000;						//å®šä¹‰ç”¨æˆ·æ•°
+const int item_size = 1000;						//å®šä¹‰é¡¹æ•°
+double sim[item_size][item_size] = {0};			//å®šä¹‰é¡¹ç›®ä¹‹é—´çš„ç›¸ä¼¼åº¦
+const int question_num = 145081;				//å®šä¹‰éœ€è¦æ¨èçš„ç”¨æˆ·åœ¨æ–‡ä»¶ä¸­çš„è¡Œæ•°
+char user[user_size][item_size] = {NULL};		//å®šä¹‰ç”¨æˆ·ä¿¡æ¯ï¼Œå³ç”¨æˆ·å¯¹äºæ¯éƒ¨ç”µå½±çš„è¯„åˆ†
+vector<double> ex,ex2;							//å®šä¹‰åœ¨æ¯ä¸€åˆ—ä¸­çš„é¡¹çš„æœŸæœ›/å‡å€¼
 
 
 /*
-	¶¨Òå½«Òª½øĞĞÍÆ¼öµÄÓÃ»§¼¯ºÏ
-	°üÀ¨ÓÃ»§ÔÚindex.csvÖĞµÄÎ»ÖÃ
-	ÊÇÄÄÒ»¸öÓÃ»§
-	ÒÔ¼°¶ÔÄÄÒ»²¿µçÓ°½øĞĞÆÀ·Ö
-	ÒÔ¼°×îºó¼ÆËã³öÀ´µÄÆÀ·ÖÊı
+	å®šä¹‰å°†è¦è¿›è¡Œæ¨èçš„ç”¨æˆ·é›†åˆ
+	åŒ…æ‹¬ç”¨æˆ·åœ¨index.csvä¸­çš„ä½ç½®
+	æ˜¯å“ªä¸€ä¸ªç”¨æˆ·
+	ä»¥åŠå¯¹å“ªä¸€éƒ¨ç”µå½±è¿›è¡Œè¯„åˆ†
+	ä»¥åŠæœ€åè®¡ç®—å‡ºæ¥çš„è¯„åˆ†æ•°
 */
 struct user_question{
 	int positionInIndex;
@@ -30,13 +30,13 @@ struct user_question{
 	char theWantScore;
 };
 
-/*¶¨ÒåÒ»¸ö½á¹¹Ìå£¬ÏÔÊ¾µÄÊÇµçÓ°id£¬¼´ÏàËÆ¶È*/
+/*å®šä¹‰ä¸€ä¸ªç»“æ„ä½“ï¼Œæ˜¾ç¤ºçš„æ˜¯ç”µå½±idï¼Œå³ç›¸ä¼¼åº¦*/
 struct simStruct{
 	int movie_id;
 	double sim_level;
 };
 
-/*¶ÁÓÃ»§Êı¾İÎÄ¼ş*/
+/*è¯»ç”¨æˆ·æ•°æ®æ–‡ä»¶*/
 void readDataFile(){
 	FILE *inFile;
 	fopen_s(&inFile,"data.csv","r");
@@ -55,9 +55,9 @@ void readDataFile(){
 }
 
 /*
-	¶Ô´Óindex.csvÖĞ¶ÁÈ¡µÄÊı¾İ½øĞĞÅÅĞòµÄº¯Êı
-	½«ÓÃ»§id½ÏĞ¡µÄ·ÅÔÚÇ°Ãæ
-	½«Í¬Ò»ÓÃ»§µÄ½ÏĞ¡µçÓ°id·ÅÇ°Ãæ
+	å¯¹ä»index.csvä¸­è¯»å–çš„æ•°æ®è¿›è¡Œæ’åºçš„å‡½æ•°
+	å°†ç”¨æˆ·idè¾ƒå°çš„æ”¾åœ¨å‰é¢
+	å°†åŒä¸€ç”¨æˆ·çš„è¾ƒå°ç”µå½±idæ”¾å‰é¢
 */
 bool cmp(user_question a,user_question b){
 	bool result = true;
@@ -67,8 +67,8 @@ bool cmp(user_question a,user_question b){
 }
 
 /*
-	´Óindex.csvÖĞ¶ÁÈ¡½«ÒªÆÀ±ÈµÄÓÃ»§Êı¾İ
-	²¢×îÖÕ½øĞĞÅÅĞò
+	ä»index.csvä¸­è¯»å–å°†è¦è¯„æ¯”çš„ç”¨æˆ·æ•°æ®
+	å¹¶æœ€ç»ˆè¿›è¡Œæ’åº
 */
 void read_question_set(vector<user_question> &indexContent){
 	FILE *infile;
@@ -83,11 +83,11 @@ void read_question_set(vector<user_question> &indexContent){
 
 		fscanf_s(infile,"%d",&temp);
 		fscanf_s(infile,"%c",&ch);
-		question.whichUser = temp-1;				//ÓÃ»§idÊÇ´Ó0¿ªÊ¼¶¨ÒåµÄ
+		question.whichUser = temp-1;				//ç”¨æˆ·idæ˜¯ä»0å¼€å§‹å®šä¹‰çš„
 
 		fscanf_s(infile,"%d",&temp);
 		fscanf_s(infile,"%c",&ch);
-		question.whichMovie = temp-1;				//µçÓ°idÊÇ´Ó0¿ªÊ¼¶¨ÒåµÄ
+		question.whichMovie = temp-1;				//ç”µå½±idæ˜¯ä»0å¼€å§‹å®šä¹‰çš„
 
 		indexContent.push_back(question);
 	}
@@ -97,11 +97,11 @@ void read_question_set(vector<user_question> &indexContent){
 	fclose(infile);
 }
 
-/*»ùÓÚÏîµÄĞ­Í¬¹ıÂË*/
+/*åŸºäºé¡¹çš„ååŒè¿‡æ»¤*/
 
-/*¼ÆËãÏàËÆ¶È*/
+/*è®¡ç®—ç›¸ä¼¼åº¦*/
 void getSim(){
-	//»ñÈ¡Ã¿Ò»¸öÏîµÄ¾ùÖµ£¬ÒÔ¼°Æ½·½ºóµÄ¾ùÖµ£¬¼´E(x),E(x2)
+	//è·å–æ¯ä¸€ä¸ªé¡¹çš„å‡å€¼ï¼Œä»¥åŠå¹³æ–¹åçš„å‡å€¼ï¼Œå³E(x),E(x2)
 	for (int i=0;i<item_size;i++){
 		double sum1 = 0.00,sum2 = 0.00,temp = 0.00;
 		for (int j=0;j<user_size;j++){
@@ -133,7 +133,7 @@ void getSim(){
 	fclose(outfile);
 }
 
-/*½«ÏàËÆ¶ÈĞ´Èë´ÅÅÌ*/
+/*å°†ç›¸ä¼¼åº¦å†™å…¥ç£ç›˜*/
 void writeSimToDisk(){
 	FILE *outFile;
 	fopen_s(&outFile,"sim.csv","w");
@@ -163,12 +163,12 @@ void writeSimToDisk(){
 	fclose(outFile);
 }
 
-/*ÓÃÓÚÏàËÆ¶ÈµÄÅÅĞò*/
+/*ç”¨äºç›¸ä¼¼åº¦çš„æ’åº*/
 bool cmpp(simStruct a,simStruct b){
 	return a.sim_level - b.sim_level > 0.0000001;
 }
 
-/*ÓÃÓÚ½á¹ûµÄÅÅĞò*/
+/*ç”¨äºç»“æœçš„æ’åº*/
 bool cmpp1(user_question a,user_question b){
 	return a.positionInIndex < b.positionInIndex;
 }
@@ -229,10 +229,10 @@ void getNeighbor(vector<user_question> &indexContent){
 		simSet[i].clear();
 }
 int main(){
-	/*¶ÁÈ¡Êı¾İ¼¯ºÏ*/
+	/*è¯»å–æ•°æ®é›†åˆ*/
 	readDataFile();
 
-	/*¶ÁÈ¡½«ÒªÆÀÂÛµÄ¼¯ºÏ*/
+	/*è¯»å–å°†è¦è¯„è®ºçš„é›†åˆ*/
 	vector<user_question> indexContent;
 	read_question_set(indexContent);
 
